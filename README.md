@@ -11,7 +11,7 @@ Tech Features:
 Architecture: Clean Architecture - MVVM 
 Dependency Injection: Hilt
 Local Database: Room
-UI: Jetpack Compose
+UI: Xml with Data-binding
 
 Architecture Components: 
 Will be Completed once the app is finished!
