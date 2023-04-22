@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".detailscreen.DetailScreenFragment"
+    android:background="#212121">
+
+
+    <LinearLayout
+        android:id="@+id/left_arrow"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_arrow_button"
+        android:gravity="center"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/l_gl"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/baseline_chevron_left_24"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/delete"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_arrow_button"
+        android:gravity="center"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/r_gl"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/baseline_delete_24"/>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:hint="Title"
+        android:textColorHint="#D1D4D5"
+        android:textColor="#D1D4D5"
+        android:textSize="32dp"
+        android:textStyle="bold"
+        android:background=""
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/r_gl"
+        app:layout_constraintStart_toStartOf="@+id/l_gl"
+        app:layout_constraintTop_toBottomOf="@+id/left_arrow" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/appCompatTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2022/02/08"
+        android:textColor="#888989"
+        android:textSize="16dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="@+id/l_gl"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background=""
+        android:hint="note..."
+        android:maxLines="3"
+        android:textColor="#C6C8C8"
+        android:textColorHint="#C6C8C8"
+        android:textSize="20dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toStartOf="@+id/r_gl"
+        app:layout_constraintStart_toStartOf="@+id/l_gl"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/l_gl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/r_gl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
