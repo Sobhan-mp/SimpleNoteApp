@@ -7,13 +7,13 @@ import com.sobhanmp.data.local.entity.NoteEntity
 interface NoteDao {
 
     @Insert
-    suspend fun insertNewNote(noteEntity: NoteEntity)
+    suspend fun insertNewNote(noteEntity: NoteEntity): Long
 
     @Delete
-    suspend fun deleteNote(noteEntity: NoteEntity)
+    suspend fun deleteNote(noteEntity: NoteEntity): Int
 
     @Update
-    suspend fun updateNote(noteEntity: NoteEntity)
+    suspend fun updateNote(noteEntity: NoteEntity): Int
 
     @Query("SELECT * FROM note")
     suspend fun getNotes(): List<NoteEntity>

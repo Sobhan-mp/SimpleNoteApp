@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface NoteRepository {
 
-    fun saveNewNote(note: NoteModel): Flow<Resource<Unit>>
+    suspend fun saveNewNote(note: NoteModel): Flow<Resource<Unit>>
 
-    fun updateNote(note: NoteModel): Flow<Resource<Unit>>
+    suspend fun updateNote(note: NoteModel): Flow<Resource<Unit>>
 
-    fun deleteNote(note: NoteModel): Flow<Resource<Unit>>
+    suspend fun deleteNote(note: NoteModel): Flow<Resource<Unit>>
 
-    fun getNotesList(): Flow<Resource<NoteModel>>
+    suspend fun getNotesList(): Flow<Resource<List<NoteModel>>>
 }
