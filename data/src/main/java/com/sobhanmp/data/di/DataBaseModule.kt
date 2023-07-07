@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.room.Room
 import com.sobhanmp.data.local.dao.NoteDao
 import com.sobhanmp.data.local.db.NoteDatabase
+import com.sobhanmp.data.repository.NoteRepositoryImpl
+import com.sobhanmp.domain.repository.NoteRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,4 +25,8 @@ object DataBaseModule {
         return noteDatabase.dao
     }
 
+    @Provides
+    fun repoProvider(noteRepositoryImpl: NoteRepositoryImpl): NoteRepository{
+        return noteRepositoryImpl
+    }
 }
