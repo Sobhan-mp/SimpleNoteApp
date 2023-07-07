@@ -4,6 +4,7 @@ import android.text.format.DateFormat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sobhanmp.domain.model.NoteModel
+import com.sobhanmp.domain.util.DateUtil
 import com.sobhanmp.simplenoteapp.di.NoteUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +18,7 @@ class DetailScreenViewModel @Inject constructor(private val useCase: NoteUseCase
     val title = MutableStateFlow<String>("")
     val description = MutableStateFlow<String>("")
 
+    val date = DateUtil.getTodayDate()
     fun saveNote(){
         val date = Date()
         val s: CharSequence = DateFormat.format("MMMM d, yyyy ", date.getTime())

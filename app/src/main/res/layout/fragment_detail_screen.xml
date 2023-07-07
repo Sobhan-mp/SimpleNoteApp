@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout>
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.sobhanmp.simplenoteapp.detailscreen.DetailScreenViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -63,9 +70,9 @@
             android:id="@+id/appCompatTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2022/02/08"
             android:textColor="#888989"
             android:textSize="16dp"
+            android:text="@{viewmodel.date}"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="@+id/l_gl"
             app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -98,5 +105,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="24dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toStartOf="@id/l_gl"
+            app:layout_constraintEnd_toEndOf="@id/r_gl"
+            android:textColor="@color/white"
+            android:background="@drawable/selector_button"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
