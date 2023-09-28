@@ -23,11 +23,10 @@ class NoteRepositoryImpl @Inject constructor(
             val result = dao.insertNewNote(note.toNoteEntity())
             if (result > 0) {
                 emit(Resource.Success<Unit>(null))
-                emit(Resource.Loading(false))
             } else {
                 emit(Resource.Error<Unit>("Failed to save the note"))
-                emit(Resource.Loading(false))
             }
+            emit(Resource.Loading(false))
         }
 
     }
@@ -39,11 +38,10 @@ class NoteRepositoryImpl @Inject constructor(
             val result = dao.updateNote(note.toNoteEntity(note.id))
             if (result > 0) {
                 emit(Resource.Success<Unit>(null))
-                emit(Resource.Loading(false))
             } else {
                 emit(Resource.Error<Unit>("Failed to update the note"))
-                emit(Resource.Loading(false))
             }
+            emit(Resource.Loading(false))
         }
     }
 
@@ -54,11 +52,10 @@ class NoteRepositoryImpl @Inject constructor(
             val result = dao.deleteNote(note.toNoteEntity(note.id))
             if (result > 0) {
                 emit(Resource.Success<Unit>(null))
-                emit(Resource.Loading(false))
             } else {
                 emit(Resource.Error<Unit>("Failed to update the note"))
-                emit(Resource.Loading(false))
             }
+            emit(Resource.Loading(false))
         }
     }
 
