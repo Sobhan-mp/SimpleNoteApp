@@ -5,10 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sobhanmp.domain.model.NoteModel
 import com.sobhanmp.domain.util.DateUtil
+import com.sobhanmp.domain.util.Resource
 import com.sobhanmp.simplenoteapp.di.NoteUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -19,13 +23,36 @@ class DetailScreenViewModel @Inject constructor(private val useCase: NoteUseCase
     val description = MutableStateFlow<String>("")
 
     val date = DateUtil.getTodayDate()
-    fun saveNote(){
+
+    val _isLoading: MutableSharedFlow<Boolean> = MutableSharedFlow(0)
+    val isLoading: SharedFlow<Boolean> = _isLoading
+
+    val _error: MutableSharedFlow<String> = MutableSharedFlow(0)
+    val error: SharedFlow<String> = _error
+
+    val _noteSaved: MutableSharedFlow<Boolean> = MutableSharedFlow(0)
+    val noteSaved: SharedFlow<Boolean> = _noteSaved
+    fun saveNote() {
         val date = Date()
         val s: CharSequence = DateFormat.format("MMMM d, yyyy ", date.getTime())
-        val note= NoteModel(title = title.value, text = description.value, date = s.toString())
+        val note = NoteModel(title = title.value, text = description.value, date = s.toString())
 
         viewModelScope.launch(Dispatchers.IO) {
-            useCase.newNoteUseCase.invoke(note)
+            useCase.newNoteUseCase.invoke(note).collect { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        _error.emit(result.error)
+                    }
+
+                    is Resource.Loading -> {
+                        _isLoading.emit(result.isLoading)
+                    }
+
+                    is Resource.Success -> {
+                        _noteSaved.emit(true)
+                    }
+                }
+            }
         }
 
     }
