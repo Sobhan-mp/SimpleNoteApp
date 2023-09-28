@@ -25,6 +25,10 @@ class DetailScreenFragment : Fragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_detail_screen, container, false)
         binding.viewmodel = viewModel
+
+        binding.button.setOnClickListener {
+            viewModel.saveNote()
+        }
         return binding.root
     }
 

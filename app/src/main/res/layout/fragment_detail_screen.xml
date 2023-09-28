@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,9 +10,7 @@
             name="viewmodel"
             type="com.sobhanmp.simplenoteapp.detailscreen.DetailScreenViewModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".detailscreen.DetailScreenFragment"
@@ -56,6 +56,7 @@
             android:layout_height="wrap_content"
             android:maxLines="3"
             android:hint="Title"
+            android:text="@{viewmodel.title}"
             android:textColorHint="#D1D4D5"
             android:textColor="#D1D4D5"
             android:textSize="32dp"
@@ -80,14 +81,18 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/text"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
             android:background="@android:color/transparent"
             android:hint="Write your content here"
-            android:maxLines="3"
+            android:maxLines="8"
+            android:gravity="top"
+            android:text="@{viewmodel.description}"
             android:textColor="#C6C8C8"
             android:textColorHint="#C6C8C8"
             android:textSize="20dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/button"
             app:layout_constraintEnd_toStartOf="@+id/r_gl"
             app:layout_constraintStart_toStartOf="@+id/l_gl"
             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView" />
@@ -116,6 +121,7 @@
             app:layout_constraintStart_toStartOf="@id/l_gl"
             app:layout_constraintEnd_toEndOf="@id/r_gl"
             android:textColor="@color/white"
+            android:onClick="@{() -> viewmodel.saveNote()}"
             android:background="@drawable/selector_button"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
