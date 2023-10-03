@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".detailscreen.DetailScreenFragment"
-        android:background="#212121">
+        android:background="@color/grey">
 
 
         <LinearLayout
