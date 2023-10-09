@@ -31,28 +31,50 @@ class DetailScreenFragment : Fragment() {
         // Inflate the layout for this fragment
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_detail_screen, container, false)
+        binding.lifecycleOwner = this
         binding.viewmodel = viewModel
 
         binding.button.setOnClickListener {
             viewModel.saveNote()
         }
 
+        binding.leftArrow.setOnClickListener {
+            backNavigation()
+        }
+
         collectFlows()
         return binding.root
     }
 
+    private fun backNavigation() {
+        Navigation.findNavController(requireView()).navigateUp()
+    }
+
     private fun collectFlows() {
-        collectFlow(viewModel.error){
+        collectFlow(viewModel.error) {
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
 
-        collectFlow(viewModel.isLoading){
+        collectFlow(viewModel.isLoading) {
 
         }
 
-        collectFlow(viewModel.noteSaved){
-            Navigation.findNavController(requireView()).navigateUp()
+        collectFlow(viewModel.noteSaved) {
+            backNavigation()
         }
+
+        collectFlow(viewModel.title) {
+            checkButtonEnableStatus()
+        }
+
+        collectFlow(viewModel.description) {
+            checkButtonEnableStatus()
+        }
+    }
+
+    private fun checkButtonEnableStatus() {
+        binding.button.isEnabled =
+            !viewModel.title.value.isNullOrEmpty() && !viewModel.description.value.isNullOrEmpty()
     }
 
 

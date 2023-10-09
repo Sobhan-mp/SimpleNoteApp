@@ -50,7 +50,7 @@
                 android:layout_margin="8dp"/>
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <EditText
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -61,6 +61,7 @@
             android:textColor="#D1D4D5"
             android:textSize="32dp"
             android:textStyle="bold"
+            android:afterTextChanged="@{(it)-> viewmodel.updateTitle(it.toString())}"
             android:background="@android:color/transparent"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toStartOf="@+id/r_gl"
@@ -88,6 +89,7 @@
             android:maxLines="8"
             android:gravity="top"
             android:text="@{viewmodel.description}"
+            android:afterTextChanged="@{(it)-> viewmodel.updateDescription(it.toString())}"
             android:textColor="#C6C8C8"
             android:textColorHint="#C6C8C8"
             android:textSize="20dp"

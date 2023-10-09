@@ -3,11 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/detailScreenFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/detailScreenFragment"
         android:name="com.sobhanmp.simplenoteapp.detailscreen.DetailScreenFragment"
         android:label="fragment_detail_screen"
         tools:layout="@layout/fragment_detail_screen" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.sobhanmp.simplenoteapp.notelistscreen.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_detailScreenFragment"
+            app:destination="@id/detailScreenFragment" />
+    </fragment>
 </navigation>
