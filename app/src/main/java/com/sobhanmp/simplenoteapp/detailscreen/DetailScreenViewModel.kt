@@ -1,6 +1,7 @@
 package com.sobhanmp.simplenoteapp.detailscreen
 
 import android.text.format.DateFormat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sobhanmp.domain.model.NoteModel
@@ -24,18 +25,18 @@ class DetailScreenViewModel @Inject constructor(private val useCase: NoteUseCase
 
     val date = DateUtil.getTodayDate()
 
-    val _isLoading: MutableSharedFlow<Boolean> = MutableSharedFlow(0)
+    private val _isLoading: MutableSharedFlow<Boolean> = MutableSharedFlow(0)
     val isLoading: SharedFlow<Boolean> = _isLoading
 
-    val _error: MutableSharedFlow<String> = MutableSharedFlow(0)
+    private val _error: MutableSharedFlow<String> = MutableSharedFlow(0)
     val error: SharedFlow<String> = _error
 
-    val _noteSaved: MutableSharedFlow<Boolean> = MutableSharedFlow(0)
+    private val _noteSaved: MutableSharedFlow<Boolean> = MutableSharedFlow(0)
     val noteSaved: SharedFlow<Boolean> = _noteSaved
     fun saveNote() {
         val date = Date()
         val s: CharSequence = DateFormat.format("MMMM d, yyyy ", date.getTime())
-        val note = NoteModel(title = title.value, text = description.value, date = s.toString())
+        val note = NoteModel(title = title.value!!, text = description.value, date = s.toString())
 
         viewModelScope.launch(Dispatchers.IO) {
             useCase.newNoteUseCase.invoke(note).collect { result ->
@@ -55,6 +56,18 @@ class DetailScreenViewModel @Inject constructor(private val useCase: NoteUseCase
             }
         }
 
+    }
+
+    fun updateTitle(title: String){
+        viewModelScope.launch(Dispatchers.Main) {
+            this@DetailScreenViewModel.title.emit(title)
+        }
+    }
+
+    fun updateDescription(description: String){
+        viewModelScope.launch(Dispatchers.Main) {
+            this@DetailScreenViewModel.description.emit(description)
+        }
     }
 
 }
