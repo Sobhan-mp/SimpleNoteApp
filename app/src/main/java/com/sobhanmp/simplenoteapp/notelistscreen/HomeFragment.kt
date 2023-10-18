@@ -26,9 +26,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        collectFlow(viewModel.notesList){
-            adapter.setNoteList(it)
-        }
+
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_home, container, false)
         return binding.root
     }
@@ -40,6 +38,10 @@ class HomeFragment : Fragment() {
             floatingButton.setOnClickListener {
                 Navigation.findNavController(requireView()).navigate(R.id.action_homeFragment_to_detailScreenFragment)
             }
+        }
+
+        collectFlow(viewModel.notesList){
+            adapter.setNoteList(it)
         }
 
         viewModel.start()

@@ -10,8 +10,12 @@ import com.sobhanmp.simplenoteapp.databinding.ItemNoteRecyclerBinding
 
 class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.ViewHolder>() {
 
-    var noteList: List<NoteModel?>? = null
+    private var noteList: List<NoteModel?>? = null
 
+    fun setNoteList(noteList: List<NoteModel?>?){
+        this.noteList = noteList
+        notifyDataSetChanged()
+    }
     class ViewHolder(val binding: ItemNoteRecyclerBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,7 +33,13 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val binding = holder.binding
-
-        binding.item = noteList?.get(position)
+        val list = listOf<Int>(
+            R.color.light_blue,
+            R.color.light_green,
+            R.color.light_yellow,
+            R.color.light_grey,
+            R.color.white,
+        )
+        binding.item = noteList?.get(position)?.copy(backgroundColor = list.get(position%5))
     }
 }
