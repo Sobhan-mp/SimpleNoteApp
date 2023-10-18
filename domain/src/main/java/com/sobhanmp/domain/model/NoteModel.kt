@@ -4,5 +4,6 @@ data class NoteModel(
     val id: Int? = null,
     val title: String,
     val text: String,
-    val date: String
+    val date: String,
+    val backgroundColor: Int? = null
 )

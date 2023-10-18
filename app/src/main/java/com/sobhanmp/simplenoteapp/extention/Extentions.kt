@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 
 fun <T>Fragment.collectFlow(flow: Flow<T>, action: (T) -> Unit){
-    lifecycleScope.launch(Dispatchers.Default){
+    lifecycleScope.launch(Dispatchers.Main){
         repeatOnLifecycle(Lifecycle.State.STARTED){
             flow.collect{
                 action(it)
