@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
+import com.sobhanmp.domain.model.NoteModel
 import com.sobhanmp.simplenoteapp.R
 import com.sobhanmp.simplenoteapp.databinding.FragmentHomeBinding
 import com.sobhanmp.simplenoteapp.extention.collectFlow
@@ -18,9 +19,20 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    lateinit var binding: FragmentHomeBinding
-    val viewModel by activityViewModels<HomeScreenViewModel>()
-    val adapter = NoteListAdapter()
+    private lateinit var binding: FragmentHomeBinding
+    private val viewModel by activityViewModels<HomeScreenViewModel>()
+    private val adapter by lazy<NoteListAdapter> {
+        NoteListAdapter().apply {
+            setOnItemClickListener(object : NoteListAdapter.OnItemClickListener{
+            override fun onClick(noteModel: NoteModel?) {
+                val bundle = Bundle()
+                bundle.putSerializable("note_item", noteModel)
+                Navigation.findNavController(requireView()).navigate(R.id.action_homeFragment_to_detailScreenFragment, bundle)
+            }
+        })
+        }
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

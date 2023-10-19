@@ -11,6 +11,11 @@ import com.sobhanmp.simplenoteapp.databinding.ItemNoteRecyclerBinding
 class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.ViewHolder>() {
 
     private var noteList: List<NoteModel?>? = null
+    private var onItemClickListener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(onItemClickListener: OnItemClickListener){
+        this.onItemClickListener = onItemClickListener
+    }
 
     fun setNoteList(noteList: List<NoteModel?>?){
         this.noteList = noteList
@@ -41,5 +46,13 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.ViewHolder>() {
             R.color.white,
         )
         binding.item = noteList?.get(position)?.copy(backgroundColor = list.get(position%5))
+
+        binding.root.setOnClickListener {
+            onItemClickListener?.onClick(noteList?.get(position))
+        }
+    }
+
+    interface OnItemClickListener{
+        fun onClick(noteModel: NoteModel?)
     }
 }
