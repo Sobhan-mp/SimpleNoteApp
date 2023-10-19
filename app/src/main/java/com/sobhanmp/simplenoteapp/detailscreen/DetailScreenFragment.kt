@@ -1,5 +1,6 @@
 package com.sobhanmp.simplenoteapp.detailscreen
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,12 +12,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
+import com.sobhanmp.domain.model.NoteModel
 import com.sobhanmp.domain.util.DateUtil
 import com.sobhanmp.simplenoteapp.R
 import com.sobhanmp.simplenoteapp.databinding.FragmentDetailScreenBinding
 import com.sobhanmp.simplenoteapp.extention.collectFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.Serializable
 
 
 class DetailScreenFragment : Fragment() {
@@ -42,6 +45,11 @@ class DetailScreenFragment : Fragment() {
             backNavigation()
         }
 
+        val noteItem =
+            arguments?.getSerializable("note_item") as NoteModel?
+
+        viewModel.title.value = noteItem?.title.toString()
+        viewModel.description.value = noteItem?.text.toString()
         collectFlows()
         return binding.root
     }
