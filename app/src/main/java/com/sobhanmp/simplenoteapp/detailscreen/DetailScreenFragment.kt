@@ -1,6 +1,5 @@
 package com.sobhanmp.simplenoteapp.detailscreen
 
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,25 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.sobhanmp.domain.model.NoteModel
-import com.sobhanmp.domain.util.DateUtil
 import com.sobhanmp.simplenoteapp.R
 import com.sobhanmp.simplenoteapp.databinding.FragmentDetailScreenBinding
 import com.sobhanmp.simplenoteapp.extention.collectFlow
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.io.Serializable
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class DetailScreenFragment : Fragment() {
 
 
     private lateinit var binding: FragmentDetailScreenBinding
-    private val viewModel by activityViewModels<DetailScreenViewModel>()
+    private val viewModel by viewModels<DetailScreenViewModel>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,13 +41,31 @@ class DetailScreenFragment : Fragment() {
             backNavigation()
         }
 
+        binding.delete.setOnClickListener {
+            deleteNote()
+        }
         val noteItem =
             arguments?.getSerializable("note_item") as NoteModel?
 
-        viewModel.title.value = noteItem?.title.toString()
-        viewModel.description.value = noteItem?.text.toString()
+        noteItem?.let {
+            handlePassedArgument(it)
+        }
+
+
         collectFlows()
         return binding.root
+    }
+
+    private fun handlePassedArgument(noteModel: NoteModel) {
+        viewModel.title.value = noteModel.title
+        viewModel.description.value = noteModel.text
+        viewModel.id = noteModel.id
+
+        binding.delete.visibility = View.VISIBLE
+    }
+
+    private fun deleteNote() {
+        viewModel.deleteNote()
     }
 
     private fun backNavigation() {
@@ -68,6 +82,10 @@ class DetailScreenFragment : Fragment() {
         }
 
         collectFlow(viewModel.noteSaved) {
+            backNavigation()
+        }
+
+        collectFlow(viewModel.noteDeleted) {
             backNavigation()
         }
 

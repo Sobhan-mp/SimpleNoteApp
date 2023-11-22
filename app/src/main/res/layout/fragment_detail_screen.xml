@@ -39,6 +39,7 @@
             android:layout_height="48dp"
             android:background="@drawable/bg_arrow_button"
             android:gravity="center"
+            android:visibility="gone"
             android:layout_marginTop="24dp"
             app:layout_constraintEnd_toStartOf="@+id/r_gl"
             app:layout_constraintTop_toTopOf="parent">

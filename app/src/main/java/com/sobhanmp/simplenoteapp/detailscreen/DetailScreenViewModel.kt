@@ -22,8 +22,9 @@ import javax.inject.Inject
 class DetailScreenViewModel @Inject constructor(private val useCase: NoteUseCases) : ViewModel() {
     val title = MutableStateFlow<String>("")
     val description = MutableStateFlow<String>("")
-
     val date = DateUtil.getTodayDate()
+
+    var id: Int? = null
 
     private val _isLoading: MutableSharedFlow<Boolean> = MutableSharedFlow(0)
     val isLoading: SharedFlow<Boolean> = _isLoading
@@ -33,10 +34,11 @@ class DetailScreenViewModel @Inject constructor(private val useCase: NoteUseCase
 
     private val _noteSaved: MutableSharedFlow<Boolean> = MutableSharedFlow(0)
     val noteSaved: SharedFlow<Boolean> = _noteSaved
+
     fun saveNote() {
         val date = Date()
         val s: CharSequence = DateFormat.format("MMMM d, yyyy ", date.getTime())
-        val note = NoteModel(title = title.value!!, text = description.value, date = s.toString())
+        val note = NoteModel(title = title.value, text = description.value, date = s.toString())
 
         viewModelScope.launch(Dispatchers.IO) {
             useCase.newNoteUseCase.invoke(note).collect { result ->
@@ -67,6 +69,27 @@ class DetailScreenViewModel @Inject constructor(private val useCase: NoteUseCase
     fun updateDescription(description: String){
         viewModelScope.launch(Dispatchers.Main) {
             this@DetailScreenViewModel.description.emit(description)
+        }
+    }
+
+    private val _noteDeleted: MutableSharedFlow<Boolean> = MutableSharedFlow(0)
+    val noteDeleted: SharedFlow<Boolean> = _noteDeleted
+    fun deleteNote(){
+        viewModelScope.launch(Dispatchers.IO) {
+            useCase.deleteNoteUseCase.invoke(NoteModel(
+                id = id,
+                title = title.value,
+                text = title.value,
+                date = date
+            )).collect{
+                when(it){
+                    is Resource.Error -> {}
+                    is Resource.Loading -> {}
+                    is Resource.Success -> {
+                        _noteDeleted.emit(value = true)
+                    }
+                }
+            }
         }
     }
 
