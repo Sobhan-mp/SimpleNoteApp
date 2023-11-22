@@ -41,18 +41,36 @@ class DetailScreenViewModel @Inject constructor(private val useCase: NoteUseCase
         val note = NoteModel(title = title.value, text = description.value, date = s.toString())
 
         viewModelScope.launch(Dispatchers.IO) {
-            useCase.newNoteUseCase.invoke(note).collect { result ->
-                when (result) {
-                    is Resource.Error -> {
-                        _error.emit(result.error)
-                    }
+            if (id != null) {
+                useCase.updateNoteUseCase.invoke(note.copy(id = id)).collect { result ->
+                    when (result) {
+                        is Resource.Error -> {
+                            _error.emit(result.error)
+                        }
 
-                    is Resource.Loading -> {
-                        _isLoading.emit(result.isLoading)
-                    }
+                        is Resource.Loading -> {
+                            _isLoading.emit(result.isLoading)
+                        }
 
-                    is Resource.Success -> {
-                        _noteSaved.emit(true)
+                        is Resource.Success -> {
+                            _noteSaved.emit(true)
+                        }
+                    }
+                }
+            } else {
+                useCase.newNoteUseCase.invoke(note).collect { result ->
+                    when (result) {
+                        is Resource.Error -> {
+                            _error.emit(result.error)
+                        }
+
+                        is Resource.Loading -> {
+                            _isLoading.emit(result.isLoading)
+                        }
+
+                        is Resource.Success -> {
+                            _noteSaved.emit(true)
+                        }
                     }
                 }
             }
@@ -60,13 +78,13 @@ class DetailScreenViewModel @Inject constructor(private val useCase: NoteUseCase
 
     }
 
-    fun updateTitle(title: String){
+    fun updateTitle(title: String) {
         viewModelScope.launch(Dispatchers.Main) {
             this@DetailScreenViewModel.title.emit(title)
         }
     }
 
-    fun updateDescription(description: String){
+    fun updateDescription(description: String) {
         viewModelScope.launch(Dispatchers.Main) {
             this@DetailScreenViewModel.description.emit(description)
         }
@@ -74,15 +92,17 @@ class DetailScreenViewModel @Inject constructor(private val useCase: NoteUseCase
 
     private val _noteDeleted: MutableSharedFlow<Boolean> = MutableSharedFlow(0)
     val noteDeleted: SharedFlow<Boolean> = _noteDeleted
-    fun deleteNote(){
+    fun deleteNote() {
         viewModelScope.launch(Dispatchers.IO) {
-            useCase.deleteNoteUseCase.invoke(NoteModel(
-                id = id,
-                title = title.value,
-                text = title.value,
-                date = date
-            )).collect{
-                when(it){
+            useCase.deleteNoteUseCase.invoke(
+                NoteModel(
+                    id = id,
+                    title = title.value,
+                    text = title.value,
+                    date = date
+                )
+            ).collect {
+                when (it) {
                     is Resource.Error -> {}
                     is Resource.Loading -> {}
                     is Resource.Success -> {
