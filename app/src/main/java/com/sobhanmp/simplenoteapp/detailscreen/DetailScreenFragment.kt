@@ -99,8 +99,11 @@ class DetailScreenFragment : Fragment() {
     }
 
     private fun checkButtonEnableStatus() {
-        binding.button.isEnabled =
-            !viewModel.title.value.isNullOrEmpty() && !viewModel.description.value.isNullOrEmpty()
+        val isEnable = !viewModel.title.value.isNullOrEmpty() && !viewModel.description.value.isNullOrEmpty()
+        binding.button.isEnabled = isEnable
+
+        binding.button.visibility =
+            if (isEnable) View.VISIBLE else View.GONE
     }
 
 
