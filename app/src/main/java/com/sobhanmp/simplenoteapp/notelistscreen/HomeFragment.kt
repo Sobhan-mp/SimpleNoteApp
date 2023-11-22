@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.sobhanmp.domain.model.NoteModel
 import com.sobhanmp.simplenoteapp.R
@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel by activityViewModels<HomeScreenViewModel>()
+    private val viewModel by viewModels<HomeScreenViewModel>()
     private val adapter by lazy<NoteListAdapter> {
         NoteListAdapter().apply {
             setOnItemClickListener(object : NoteListAdapter.OnItemClickListener{
